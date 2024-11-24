@@ -10,13 +10,15 @@ import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import com.aventstack.extentreports.reporter.configuration.Theme;
 
+import TestBase.BaseTest;
+
 
 public class ExtentReportManager implements ITestListener
 {
 	public ExtentSparkReporter sparkreporter; //Handles the UI of the Report
-	public ExtentReports extent;       //Handles common info for the Report
-	public ExtentTest test;         //Creates a Test Entry and updates the Status
-
+	public ExtentReports extent;              //Handles common info for the Report
+	public ExtentTest test;                   //Creates a Test Entry and updates the Status
+   
 	public  void onTestStart(ITestResult result)
 	 {
 		
@@ -31,8 +33,7 @@ public class ExtentReportManager implements ITestListener
 	  public void onTestSuccess(ITestResult result) 
 	  {
 	    test=extent.createTest(result.getName());
-	    test.log(Status.PASS, "Test Case Passed:"+result.getName());
-	    
+	    test.log(Status.PASS, "Test Case Passed:"+result.getName());    
 	  }
 
 	  public void onTestFailure(ITestResult result)
@@ -40,6 +41,15 @@ public class ExtentReportManager implements ITestListener
 		  test=extent.createTest(result.getName());
 		  test.log(Status.FAIL, "Test Case Failed:"+result.getName());
 		  test.log(Status.INFO,"Test Case Failed cause is:"+result.getThrowable().getMessage());
+		  
+		  try {
+			  String filepath=new BaseTest().getScreenShot(result.getName());
+			  test.addScreenCaptureFromPath(filepath);
+		  }
+		  catch(Exception e) 
+		  {
+			  e.printStackTrace();
+		  }
 	  }
 
 	  public void onTestSkipped(ITestResult result)
