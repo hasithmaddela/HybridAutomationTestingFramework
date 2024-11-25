@@ -36,10 +36,13 @@ public class ExtentReportManager implements ITestListener
 	    
 		extent=new ExtentReports();
 		extent.setSystemInfo("Environment", "QA");
+		
 		String os=context.getCurrentXmlTest().getParameter("os");
 		extent.setSystemInfo("Operating System", os);
+		
 		String browser=context.getCurrentXmlTest().getParameter("browser");
 		extent.setSystemInfo("Browser", browser);
+		
 		List<String> groups=context.getCurrentXmlTest().getIncludedGroups();
 		if(!groups.isEmpty())
 		{
