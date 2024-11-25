@@ -12,7 +12,7 @@
 
   <test thread-count="5" name="Test">
   <parameters>
-  <parameter  name="os" value="windows"/>
+  <parameter name="os"      value="windows"/>
   <parameter name="browser" value="chrome"/>
   </parameters>
     <classes>
