@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="Suite">
+  <test thread-count="5" name="Test">
+  <parameters>
+  <parameter  name="os" value="windows"/>
+  <parameter name="browser" value="chrome"/>
+  </parameters>
+    <classes>
+      <class name="TestBase.BaseTest"/>
+    </classes>
+  </test> <!-- Test -->
+</suite> <!-- Suite -->

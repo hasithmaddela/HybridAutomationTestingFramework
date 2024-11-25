@@ -1,25 +1,56 @@
 package TestBase;
 
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.time.Duration;
+import java.util.Properties;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Parameters;
 
 public class BaseTest 
 {
 	public static WebDriver driver;
+	public Logger log;
 	
+	@Parameters({"os","browser"})
 	@BeforeClass
-    public void setup() 
+    public void setup(String operatingSytem,String  browserName) throws IOException 
 	{
-		driver=new ChromeDriver();
+		FileReader fr=new FileReader(System.getProperty("user.dir")+"\\src\\test\\resources\\Config.Properties");
+		Properties pr=new Properties();
+		pr.load(fr);
+		
+		log=LogManager.getLogger();
+		
+		switch(browserName) 
+		{
+		case "chrome"   :driver=new ChromeDriver();
+		                 break;
+		case "edge"     :driver=new EdgeDriver();
+                         break;
+		case "firefox"  :driver=new FirefoxDriver();
+                         break;  
+		default         :System.out.println("Invalid browser name");
+		                 return;
+		}
+		
+		driver.get(pr.getProperty("AppUrl"));
+		driver.manage().deleteAllCookies();
+		driver.manage().window().maximize();
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 		
 	}
-	
 	
 	public String getScreenShot(String filename)
 	{
@@ -30,6 +61,7 @@ public class BaseTest
 		sourceFile.renameTo(TargetFile);
 		return filepath;
 	}
+	
 	@AfterClass
     public void tearDown()
 	{
