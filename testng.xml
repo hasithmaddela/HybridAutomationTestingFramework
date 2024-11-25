@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<suite name="Suite">
+<suite name="Suite"  parallel="Tests" thread-count="5">
+
+<listeners>
+<listener name="Utilities.ExtentReportManger"/>
+</listeners>
+
+<groups>
+<run>
+</run>
+</groups>
+
   <test thread-count="5" name="Test">
   <parameters>
   <parameter  name="os" value="windows"/>
